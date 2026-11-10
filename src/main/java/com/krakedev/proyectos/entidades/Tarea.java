@@ -10,7 +10,7 @@ public class Tarea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false, length = 200)
     private String descripcion;
@@ -33,11 +33,9 @@ public class Tarea {
     )
     private List<Empleado> empleados;
 
-    
     public Tarea() {}
 
-   
-    public Tarea(int id, String descripcion, LocalDate fechaLimite, double costoEstimado, Proyecto proyecto) {
+    public Tarea(Integer id, String descripcion, LocalDate fechaLimite, double costoEstimado, Proyecto proyecto) {
         this.id = id;
         this.descripcion = descripcion;
         this.fechaLimite = fechaLimite;
@@ -45,65 +43,51 @@ public class Tarea {
         this.proyecto = proyecto;
     }
 
+    public Integer getId() {
+        return id;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
+    public LocalDate getFechaLimite() {
+        return fechaLimite;
+    }
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+    public void setFechaLimite(LocalDate fechaLimite) {
+        this.fechaLimite = fechaLimite;
+    }
 
+    public double getCostoEstimado() {
+        return costoEstimado;
+    }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+    public void setCostoEstimado(double costoEstimado) {
+        this.costoEstimado = costoEstimado;
+    }
 
+    public Proyecto getProyecto() {
+        return proyecto;
+    }
 
-	public LocalDate getFechaLimite() {
-		return fechaLimite;
-	}
+    public void setProyecto(Proyecto proyecto) {
+        this.proyecto = proyecto;
+    }
 
+    public List<Empleado> getEmpleados() {
+        return empleados;
+    }
 
-	public void setFechaLimite(LocalDate fechaLimite) {
-		this.fechaLimite = fechaLimite;
-	}
-
-
-	public double getCostoEstimado() {
-		return costoEstimado;
-	}
-
-
-	public void setCostoEstimado(double costoEstimado) {
-		this.costoEstimado = costoEstimado;
-	}
-
-
-	public Proyecto getProyecto() {
-		return proyecto;
-	}
-
-
-	public void setProyecto(Proyecto proyecto) {
-		this.proyecto = proyecto;
-	}
-
-
-	public List<Empleado> getEmpleados() {
-		return empleados;
-	}
-
-
-	public void setEmpleados(List<Empleado> empleados) {
-		this.empleados = empleados;
-	}
-
-   
+    public void setEmpleados(List<Empleado> empleados) {
+        this.empleados = empleados;
+    }
 }
