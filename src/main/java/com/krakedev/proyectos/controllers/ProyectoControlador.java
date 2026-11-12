@@ -2,6 +2,8 @@ package com.krakedev.proyectos.controllers;
 
 import com.krakedev.proyectos.entidades.Proyecto;
 import com.krakedev.proyectos.services.ProyectoServicio;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,34 +12,31 @@ import java.util.List;
 @RequestMapping("/api/proyectos")
 public class ProyectoControlador {
 
-    private final ProyectoServicio proyectoServicio;
+    private final ProyectoServicio proyectoService;
 
-    public ProyectoControlador(ProyectoServicio proyectoServicio) {
-        this.proyectoServicio = proyectoServicio;
+    public ProyectoControlador(ProyectoServicio proyectoService) {
+        this.proyectoService = proyectoService;
     }
 
-    @GetMapping
-    public List<Proyecto> listar() {
-        return proyectoServicio.listar();
-    }
-
-    @GetMapping("/{id}")
-    public Proyecto buscarPorId(@PathVariable int id) {
-        return proyectoServicio.buscar(id);
-    }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public Proyecto guardar(@RequestBody Proyecto proyecto) {
-        return proyectoServicio.guardar(proyecto);
+    public ResponseEntity<Proyecto> crearProyecto(@RequestBody Proyecto proyecto) {
+        Proyecto nuevoProyecto = proyectoService.guardar(proyecto);
+        return ResponseEntity.ok(nuevoProyecto);
     }
 
-    @PutMapping("/{id}")
-    public Proyecto actualizar(@PathVariable int id, @RequestBody Proyecto proyecto) {
-        return proyectoServicio.actualizar(id, proyecto);
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping
+    public ResponseEntity<List<Proyecto>> listarProyectos() {
+        // Corregido a listar() para que coincida con tu servicio
+        List<Proyecto> proyectos = proyectoService.listar();
+        return ResponseEntity.ok(proyectos);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable int id) {
-        proyectoServicio.eliminar(id);
+    public ResponseEntity<?> eliminarProyecto(@PathVariable Integer id) {
+        proyectoService.eliminar(id);
+        return ResponseEntity.ok().body("Proyecto eliminado exitosamente");
     }
 }
