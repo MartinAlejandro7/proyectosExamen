@@ -54,4 +54,13 @@ public class AuthController {
         }
         return ResponseEntity.badRequest().body(Map.of("error", "Token no proporcionado"));
     }
+    
+    @GetMapping("/perfil")
+    public ResponseEntity<?> perfil(org.springframework.security.core.Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "No autorizado"));
+        }
+        String username = authentication.getName();
+        return ResponseEntity.ok(Map.of("username", username, "mensaje", "Acceso autorizado al perfil"));
+    }
 }
